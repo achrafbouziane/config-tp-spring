@@ -19,3 +19,14 @@ eureka:
     instance-id: ${spring.application.name}:${server.port}
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
+resilience4j:
+  circuitbreaker:
+    instances:
+      userServiceBreaker:
+      slidingWindowType: COUNT_BASED # 10 derniers appels
+      slidingWindowSize: 5 # fenêtre de 5 appels
+      failureRateThreshold: 50 # 50% d'échecs => OPEN
+      waitDurationInOpenState: 5s # rester OPEN 5 sec
+      permittedNumberOfCallsInHalfOpenState: 2 # 2 tests
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      minimumNumberOfCalls: 5
