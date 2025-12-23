@@ -30,3 +30,8 @@ resilience4j:
       permittedNumberOfCallsInHalfOpenState: 2 # 2 tests
       automaticTransitionFromOpenToHalfOpenEnabled: true
       minimumNumberOfCalls: 5
+      myRetry:
+        max-attempts: 3
+        wait-duration: 500ms
+        retry-exceptions:
+          - java.lang.RuntimeException
