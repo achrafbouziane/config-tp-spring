@@ -1,5 +1,6 @@
 server:
   port: 9095
+
 spring:
   application:
     name: product-service
@@ -8,6 +9,7 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
 eureka:
   client:
     service-url:
@@ -19,21 +21,26 @@ eureka:
     instance-id: ${spring.application.name}:${server.port}
     lease-renewal-interval-in-seconds: 10
     lease-expiration-duration-in-seconds: 30
+
 resilience4j:
   circuitbreaker:
     instances:
       userServiceBreaker:
-      slidingWindowType: COUNT_BASED # 10 derniers appels
-      slidingWindowSize: 5 # fenêtre de 5 appels
-      failureRateThreshold: 50 # 50% d'échecs => OPEN
-      waitDurationInOpenState: 5s # rester OPEN 5 sec
-      permittedNumberOfCallsInHalfOpenState: 2 # 2 tests
-      automaticTransitionFromOpenToHalfOpenEnabled: true
-      minimumNumberOfCalls: 5
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 2
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        minimumNumberOfCalls: 5
+  retry:
+    instances:
       myRetry:
         max-attempts: 3
         wait-duration: 500ms
         retry-exceptions:
           - java.lang.RuntimeException
+  timeout:
+    instances:
       myTimeout:
-        timeout-duration: 1s  
+        timeout-duration: 1s
