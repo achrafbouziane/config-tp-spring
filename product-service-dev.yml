@@ -35,3 +35,5 @@ resilience4j:
         wait-duration: 500ms
         retry-exceptions:
           - java.lang.RuntimeException
+      myTimeout:
+        timeout-duration: 1s  
